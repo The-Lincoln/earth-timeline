@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earth's Historical Timeline - 4.54 Billion Years</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --hadean: #e74c3c;
+            --hadean-glow: #ff6b6b;
+            --archean: #f39c12;
+            --archean-glow: #f7b733;
+            --proterozoic: #3498db;
+            --proterozoic-glow: #5dade2;
+            --paleozoic: #2ecc71;
+            --paleozoic-glow: #58d68d;
+            --mesozoic: #e67e22;
+            --mesozoic-glow: #f0a04b;
+            --cenozoic: #9b59b6;
+            --cenozoic-glow: #bb8fce;
+            --bg-deep: #0a0a14;
+            --bg-card: #141428;
+            --bg-surface: #1a1a30;
+            --text-primary: #e8e8f0;
+            --text-secondary: #b0b0c8;
+            --accent-gold: #d4a853;
+            --timeline-line: #2a2a45;
+            --glow-soft: rgba(100, 140, 255, 0.15);
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.7;
+            position: relative;
+            min-height: 100vh;
+            top: 0px !important; /* Prevent Google Translate shifting */
+        }
+        /* Google Translate override */
+        .skiptranslate {
+            display: none !important;
+        }
+        body > .skiptranslate {
+            display: none;
+        }
+
+        /* ── Starfield Canvas ── */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        /* ── Main Container ── */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            padding-bottom: 80px;
+        }
+
+        /* ── Language Switcher ── */
+        .lang-switcher-wrapper {
+            position: relative;
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .lang-switcher {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 30px;
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #b0b0c8;
+            font-weight: 500;
+            font-size: 0.85rem;
+            padding: 8px 14px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            font-family: 'Space Grotesk', sans-serif;
+            cursor: pointer;
+        }
+        .lang-btn i {
+            font-size: 1rem;
+        }
+        .lang-btn:hover {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+        .lang-btn.active {
+            background: var(--accent-gold);
+            color: #0a0a14;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(212,168,83,0.6);
+        }
+        .lang-btn.active:hover {
+            background: #e0b75e;
+        }
+        @media (max-width: 600px) {
+            .lang-btn {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+            .lang-btn i {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ── Hero Section ── */
+        .hero-section {
+            text-align: center;
+            padding: 40px 20px 30px;
+            position: relative;
+        }
+        .hero-earth-visual {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            background: radial-gradient(circle at 35% 30%,
+                    #4da6ff 0%, #2980b9 15%, #1a5276 30%,
+                    #27ae60 35%, #1e8449 45%, #1a5276 55%,
+                    #2980b9 65%, #1a3a4a 80%, #0d1b2a 100%);
+            box-shadow:
+                0 0 60px rgba(52, 152, 219, 0.5),
+                0 0 120px rgba(52, 152, 219, 0.25),
+                0 0 200px rgba(46, 204, 113, 0.2),
+                inset -15px -10px 40px rgba(0, 0, 0, 0.5);
+            animation: earthPulse 4s ease-in-out infinite;
+            position: relative;
+        }
+        .hero-earth-visual::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 22%;
+            width: 28%;
+            height: 28%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            filter: blur(8px);
+        }
+        @keyframes earthPulse {
+            0%, 100% { box-shadow: 0 0 60px rgba(52,152,219,0.5), 0 0 120px rgba(52,152,219,0.25), 0 0 200px rgba(46,204,113,0.2); }
+            50% { box-shadow: 0 0 80px rgba(52,152,219,0.7), 0 0 160px rgba(52,152,219,0.4), 0 0 240px rgba(46,204,113,0.35); }
+        }
+        .hero-title {
+            font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2.2rem, 5vw, 4.5rem);
+            letter-spacing: 0.03em;
+            background: linear-gradient(180deg, #ffffff 0%, #c0d0f0 40%, #8090c0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .hero-age {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 3.5vw, 3rem);
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-shadow: 0 0 40px rgba(212, 168, 83, 0.5);
+            margin-bottom: 8px;
+        }
+        .hero-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 650px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* ── Cosmic Calendar Bar ── */
+        .cosmic-calendar-section {
+            max-width: 1000px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        .cosmic-calendar-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+        .cosmic-calendar-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #c8d0e0;
+            letter-spacing: 0.04em;
+        }
+        .cosmic-bar-wrapper {
+            display: flex;
+            height: 48px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            cursor: pointer;
+            flex-wrap: nowrap;
+            min-width: 100%;
+        }
+        .cosmic-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.05em;
+            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 6px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .cosmic-segment:hover {
+            filter: brightness(1.4);
+            transform: scaleY(1.25);
+            z-index: 5;
+            box-shadow: 0 0 30px currentColor;
+            font-size: 0.78rem;
+        }
+        .cosmic-segment.hadean-bar { background: linear-gradient(180deg, #c0392b, #e74c3c); width: 12.5%; }
+        .cosmic-segment.archean-bar { background: linear-gradient(180deg, #d35400, #f39c12); width: 33%; }
+        .cosmic-segment.proterozoic-bar { background: linear-gradient(180deg, #2471a3, #3498db); width: 42.5%; }
+        .cosmic-segment.paleozoic-bar { background: linear-gradient(180deg, #1e8449, #2ecc71); width: 6.3%; }
+        .cosmic-segment.mesozoic-bar { background: linear-gradient(180deg, #b9770e, #e67e22); width: 4.1%; }
+        .cosmic-segment.cenozoic-bar { background: linear-gradient(180deg, #7d3c98, #9b59b6); width: 1.6%; }
+        .cosmic-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 16px; justify-content: center; }
+        .cosmic-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: #b0b0c8; font-weight: 500; }
+        .cosmic-legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+        .cosmic-note { text-align: center; margin-top: 14px; font-size: 0.8rem; color: #8888a8; font-style: italic; }
+
+        /* ── Timeline ── */
+        .timeline-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .timeline-section h2 {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 50px;
+            color: #d0d8f0;
+        }
+        .timeline-vertical { position: relative; }
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--hadean) 0%, var(--archean) 14%, var(--proterozoic) 46%, var(--paleozoic) 88%, var(--mesozoic) 94.5%, var(--cenozoic) 97.5%, rgba(255,255,255,0.3) 100%);
+            transform: translateX(-50%);
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(100,140,255,0.3);
+            z-index: 0;
+        }
+        .timeline-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 22px 24px;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+            width: 44%;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+            backdrop-filter: blur(4px);
+        }
+        .timeline-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 45px rgba(0,0,0,0.5), 0 0 60px var(--glow-soft);
+            border-color: rgba(255,255,255,0.18);
+        }
+        .timeline-card.expanded { width: 56%; z-index: 20; }
+        .timeline-card.left { margin-right: auto; text-align: right; border-right: 3px solid var(--card-accent, #555); }
+        .timeline-card.right { margin-left: auto; text-align: left; border-left: 3px solid var(--card-accent, #555); }
+        .timeline-card .era-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .timeline-card .period-name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+        .timeline-card .time-range { font-size: 0.8rem; color: #9090b0; margin-bottom: 10px; }
+        .timeline-card .key-events {
+            font-size: 0.85rem;
+            color: #b8b8d0;
+            line-height: 1.6;
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .timeline-card.expanded .key-events { display: block; }
+        .timeline-dot {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            top: 28px;
+            z-index: 3;
+            border: 2px solid #0a0a14;
+        }
+        .timeline-card.left .timeline-dot { right: -35px; }
+        .timeline-card.right .timeline-dot { left: -35px; }
+        .earth-mini {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 6px;
+        }
+        .earth-hadean { background: radial-gradient(circle at 40% 35%, #ff6b35 0%, #c0392b 30%, #5a1a1a 70%); }
+        .earth-archean { background: radial-gradient(circle at 40% 35%, #e8a040 0%, #8b5e3c 30%, #3d5a40 55%); }
+        .earth-proterozoic { background: radial-gradient(circle at 38% 32%, #c8e8ff 0%, #6baed6 25%, #3a7ca5 45%); }
+        .earth-paleozoic { background: radial-gradient(circle at 38% 32%, #a0e0c0 0%, #4a9e6e 25%, #2d6a3f 45%); }
+        .earth-mesozoic { background: radial-gradient(circle at 38% 32%, #c8b878 0%, #7a9a3a 25%, #4a6a2a 45%); }
+        .earth-cenozoic { background: radial-gradient(circle at 35% 30%, #e8f0ff 0%, #8ab8e0 25%, #4a80b0 45%); }
+
+        @media (max-width: 768px) {
+            .timeline-line { left: 18px; }
+            .timeline-card { width: 85%; margin-left: 40px !important; text-align: left !important; border-left: 3px solid var(--card-accent) !important; }
+            .timeline-card.left .timeline-dot, .timeline-card.right .timeline-dot { left: -32px !important; }
+            .timeline-card.expanded { width: 88%; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="starfield"></canvas>
+
+    <div class="main-content">
+
+        <!-- Language Switcher -->
+        <div class="lang-switcher-wrapper">
+            <div class="lang-switcher" id="customLangSwitcher">
+                <button class="lang-btn active" data-lang="en"><i class="bi bi-globe2"></i> English</button>
+                <button class="lang-btn" data-lang="bn"><i class="bi bi-flag"></i> বাংলা</button>
+                <button class="lang-btn" data-lang="hi"><i class="bi bi-flag"></i> हिन्दी</button>
+                <button class="lang-btn" data-lang="ar"><i class="bi bi-flag"></i> العربية</button>
+            </div>
+        </div>
+
+        <!-- Hidden Google Translate Element -->
+        <div id="google_translate_element" style="display: none;"></div>
+
+        <section class="hero-section">
+            <div class="hero-earth-visual"></div>
+            <h1 class="hero-title">Earth's Grand Timeline</h1>
+            <div class="hero-age" id="ageCounter">4,540,000,000 Years</div>
+            <p class="hero-subtitle">
+                Journey through <strong>4.54 billion years</strong> of cosmic evolution — from a molten newborn world
+                to the vibrant blue planet teeming with life.
+            </p>
+        </section>
+
+        <section class="cosmic-calendar-section">
+            <div class="cosmic-calendar-card">
+                <h3><i class="bi bi-bar-chart-fill"></i> Earth's History at a Glance (Proportional Time Scale)</h3>
+                <div class="cosmic-bar-wrapper" id="cosmicBar">
+                    <div class="cosmic-segment hadean-bar" data-era="hadean">HADEAN<br>12.5%</div>
+                    <div class="cosmic-segment archean-bar" data-era="archean">ARCHEAN<br>33%</div>
+                    <div class="cosmic-segment proterozoic-bar" data-era="proterozoic">PROTEROZOIC<br>42.5%</div>
+                    <div class="cosmic-segment paleozoic-bar" data-era="paleozoic">PALEOZOIC<br>6.3%</div>
+                    <div class="cosmic-segment mesozoic-bar" data-era="mesozoic">MESOZOIC<br>4.1%</div>
+                    <div class="cosmic-segment cenozoic-bar" data-era="cenozoic">CENOZOIC<br>1.6%</div>
+                </div>
+                <div class="cosmic-legend">
+                    <span class="cosmic-legend-item"><span class="cosmic-legend-dot" style="background:#e74c3c;"></span> Hadean</span>
+                    <span class="cosmic-legend-item"><span class="cosmic-legend-dot" style="background:#f39c12;"></span> Archean</span>
+                    <span class="cosmic-legend-item"><span class="cosmic-legend-dot" style="background:#3498db;"></span> Proterozoic</span>
+                    <span class="cosmic-legend-item"><span class="cosmic-legend-dot" style="background:#2ecc71;"></span> Paleozoic</span>
+                    <span class="cosmic-legend-item"><span class="cosmic-legend-dot" style="background:#e67e22;"></span> Mesozoic</span>
+                    <span class="cosmic-legend-item"><span class="cosmic-legend-dot" style="background:#9b59b6;"></span> Cenozoic</span>
+                </div>
+                <p class="cosmic-note">
+                    <i class="bi bi-info-circle"></i> Hover over each segment — 88% of Earth's history predates complex animal life.
+                </p>
+            </div>
+        </section>
+
+        <section class="timeline-section">
+            <h2><i class="bi bi-clock-history"></i> Geological Time Scale</h2>
+            <div class="timeline-vertical" id="timelineContainer">
+                <div class="timeline-line"></div>
+            </div>
+        </section>
+
+        <div class="footer-note">
+            <p>Data based on the <strong>International Commission on Stratigraphy (ICS)</strong>. Earth's age: <strong>4.54 ± 0.05 billion years</strong>.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Google Translate API -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,bn,hi,ar', // English, Bangla, Hindi, Arabic
+                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        // Custom language switcher logic
+        function switchLanguage(lang) {
+            // Find the Google Translate select and change its value
+            const googleTranslateCombo = document.querySelector('.goog-te-combo');
+            if (googleTranslateCombo) {
+                googleTranslateCombo.value = lang;
+                // Dispatch change event to trigger translation
+                googleTranslateCombo.dispatchEvent(new Event('change'));
+            } else {
+                // Fallback: reload page with Google Translate parameter
+                const currentUrl = window.location.href.split('#')[0];
+                window.location.href = `https://translate.google.com/translate?hl=${lang}&sl=en&u=${encodeURIComponent(currentUrl)}`;
+            }
+            // Update active button style
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            // Save preference
+            localStorage.setItem('earthTimelineLang', lang);
+        }
+
+        // Attach events to custom buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    switchLanguage(lang);
+                });
+            });
+
+            // Restore saved language after Google Translate loads
+            const savedLang = localStorage.getItem('earthTimelineLang');
+            if (savedLang && savedLang !== 'en') {
+                // Wait for Google Translate to be ready
+                const checkInterval = setInterval(() => {
+                    const combo = document.querySelector('.goog-te-combo');
+                    if (combo) {
+                        clearInterval(checkInterval);
+                        combo.value = savedLang;
+                        combo.dispatchEvent(new Event('change'));
+                        // Update active button
+                        document.querySelectorAll('.lang-btn').forEach(b => {
+                            b.classList.remove('active');
+                            if (b.getAttribute('data-lang') === savedLang) b.classList.add('active');
+                        });
+                    }
+                }, 300);
+            }
+        });
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        (function() {
+            // Starfield, timeline cards, cosmic bar – identical to original (slightly compressed)
+            const canvas = document.getElementById('starfield');
+            const ctx = canvas.getContext('2d');
+            let stars = [], shootingStars = [];
+            function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = document.documentElement.scrollHeight; }
+            function createStars() {
+                stars = [];
+                for (let i = 0; i < 280; i++) stars.push({
+                    x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+                    radius: Math.random()*1.8+0.3, twinkleSpeed: Math.random()*0.015+0.005,
+                    twinkleOffset: Math.random()*Math.PI*2, baseAlpha: Math.random()*0.7+0.3
+                });
+            }
+            function spawnShootingStar() {
+                if (Math.random()<0.06 && shootingStars.length<2) shootingStars.push({
+                    x: Math.random()*canvas.width, y: Math.random()*canvas.height*0.5,
+                    vx: (Math.random()-0.5)*4, vy: Math.random()*5+3, life:1.0, decay:0.02, trail:[]
+                });
+            }
+            function updateShootingStars() {
+                for(let i=shootingStars.length-1;i>=0;i--) {
+                    const s=shootingStars[i]; s.trail.push({x:s.x,y:s.y,life:s.life});
+                    if(s.trail.length>25) s.trail.shift(); s.x+=s.vx; s.y+=s.vy; s.life-=s.decay;
+                    if(s.life<=0||s.y>canvas.height||s.x<0||s.x>canvas.width) shootingStars.splice(i,1);
+                }
+            }
+            function drawStars(time) {
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                for(const s of stars) {
+                    const a = Math.max(0.15, Math.min(1, s.baseAlpha+Math.sin(time*s.twinkleSpeed+s.twinkleOffset)*0.3));
+                    ctx.beginPath(); ctx.arc(s.x,s.y,s.radius,0,Math.PI*2);
+                    ctx.fillStyle=`rgba(200,220,255,${a})`; ctx.fill();
+                }
+                for(const ss of shootingStars) {
+                    if(ss.trail.length>1){ctx.beginPath(); ctx.moveTo(ss.trail[0].x,ss.trail[0].y);
+                    for(let t=1;t<ss.trail.length;t++) ctx.lineTo(ss.trail[t].x,ss.trail[t].y);
+                    ctx.strokeStyle=`rgba(255,255,255,${ss.life*0.8})`; ctx.lineWidth=1.5; ctx.stroke();}
+                    ctx.beginPath(); ctx.arc(ss.x,ss.y,1.5,0,Math.PI*2); ctx.fillStyle=`rgba(255,255,255,${ss.life})`; ctx.fill();
+                }
+            }
+            function animateStars(time){ spawnShootingStar(); updateShootingStars(); drawStars(time); requestAnimationFrame(animateStars); }
+            resizeCanvas(); createStars(); requestAnimationFrame(animateStars);
+            window.addEventListener('resize',()=>{ resizeCanvas(); createStars(); });
+
+            const timelineData = [
+                {id:'hadean',era:'Hadean Eon',period:'Formation & Chaos',timeRange:'4.54 – 4.0 Ga',duration:'~540 million years',color:'#e74c3c',glow:'rgba(231,76,60,0.5)',earthClass:'earth-hadean',keyEvents:['🌋 Formation of Earth','💥 Giant Impact → Moon forms','🌊 First oceans condense','☄️ Late Heavy Bombardment','🧪 First solid crust'],side:'left'},
+                {id:'archean',era:'Archean Eon',period:'First Life Emerges',timeRange:'4.0 – 2.5 Ga',duration:'~1.5 billion years',color:'#f39c12',glow:'rgba(243,156,18,0.5)',earthClass:'earth-archean',keyEvents:['🦠 First prokaryotic life','🪨 Stromatolites','☀️ Photosynthesis begins','🌍 Microcontinents stabilize','🧬 RNA world → DNA'],side:'right'},
+                {id:'proterozoic',era:'Proterozoic Eon',period:'Oxygen Revolution & Snowball Earth',timeRange:'2.5 Ga – 541 Ma',duration:'~1.96 billion years',color:'#3498db',glow:'rgba(52,152,219,0.5)',earthClass:'earth-proterozoic',keyEvents:['💨 Great Oxygenation Event','❄️ Huronian glaciation','🧫 First eukaryotes','🌐 Rodinia supercontinent','❄️ Cryogenian Snowball Earths','🐙 Ediacaran biota'],side:'left'},
+                {id:'paleozoic',era:'Paleozoic Era',period:'Cambrian Explosion & Life Conquers Land',timeRange:'541 – 252 Ma',duration:'~289 million years',color:'#2ecc71',glow:'rgba(46,204,113,0.5)',earthClass:'earth-paleozoic',keyEvents:['💥 Cambrian Explosion','🐟 First vertebrates','🌿 Plants colonize land','🦞 First land arthropods','🌳 Devonian forests','🦎 First reptiles','🏔️ Pangea assembles','💀 Permian extinction'],side:'right'},
+                {id:'mesozoic',era:'Mesozoic Era',period:'Age of Dinosaurs',timeRange:'252 – 66 Ma',duration:'~186 million years',color:'#e67e22',glow:'rgba(230,126,34,0.5)',earthClass:'earth-mesozoic',keyEvents:['🦕 Dinosaurs dominate','🐦 First birds','🐭 First mammals','🌸 Flowering plants','🦈 Marine reptiles','🌋 Pangea breaks','☄️ K-Pg extinction'],side:'left'},
+                {id:'cenozoic',era:'Cenozoic Era',period:'Age of Mammals & Rise of Humans',timeRange:'66 Ma – Present',duration:'~66 million years',color:'#9b59b6',glow:'rgba(155,89,182,0.5)',earthClass:'earth-cenozoic',keyEvents:['🐘 Mammals diversify','🐋 Whales return','🌍 Modern continents','🐒 First primates','🧠 Genus Homo','🔥 Fire control','🧬 Homo sapiens','❄️ Ice Ages','🏙️ Human civilization'],side:'right'}
+            ];
+
+            const container = document.getElementById('timelineContainer');
+            timelineData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `timeline-card ${item.side}`;
+                card.setAttribute('data-id', item.id);
+                card.style.setProperty('--card-accent', item.color);
+                card.style.setProperty('--card-glow', item.glow);
+                card.innerHTML = `
+                    <span class="era-badge" style="background:${item.color};color:#fff;">${item.era}</span>
+                    <div class="period-name" style="color:${item.color};">${item.period}</div>
+                    <div class="time-range">${item.timeRange}</div>
+                    <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;${item.side==='left'?'justify-content:flex-end;':'justify-content:flex-start;'}">
+                        <span class="earth-mini ${item.earthClass}"></span>
+                        <span style="font-size:0.75rem;color:#888;">${item.duration}</span>
+                    </div>
+                    <div class="key-events">${item.keyEvents.map(e=>`<p style="margin:3px 0;">${e}</p>`).join('')}</div>
+                    <div class="expand-hint" style="font-size:0.7rem;color:#666;margin-top:6px;">Click to explore →</div>
+                    <div class="timeline-dot" style="background:${item.color};"></div>
+                `;
+                card.addEventListener('click', function(e){
+                    if(e.target.closest('a')||e.target.closest('button')) return;
+                    const wasExpanded = card.classList.contains('expanded');
+                    document.querySelectorAll('.timeline-card.expanded').forEach(c=>c.classList.remove('expanded'));
+                    if(!wasExpanded){ card.classList.add('expanded'); card.querySelector('.expand-hint').textContent='Click to collapse ↑'; }
+                    else card.querySelector('.expand-hint').textContent='Click to explore →';
+                });
+                container.appendChild(card);
+            });
+
+            document.querySelectorAll('.cosmic-segment').forEach(seg=>{
+                seg.addEventListener('click',function(){
+                    const eraId=this.getAttribute('data-era');
+                    const target=document.querySelector(`.timeline-card[data-id="${eraId}"]`);
+                    if(target){
+                        document.querySelectorAll('.timeline-card.expanded').forEach(c=>c.classList.remove('expanded'));
+                        target.classList.add('expanded');
+                        target.querySelector('.expand-hint').textContent='Click to collapse ↑';
+                        target.scrollIntoView({behavior:'smooth',block:'center'});
+                    }
+                });
+            });
+
+            const ageCounter=document.getElementById('ageCounter');
+            const targetAge=4540000000; let start=performance.now();
+            function anim(ts){ const p=Math.min((ts-start)/2800,1); const e=1-Math.pow(1-p,3);
+                ageCounter.textContent=Math.floor(e*targetAge).toLocaleString()+' Years';
+                if(p<1) requestAnimationFrame(anim); else ageCounter.textContent='4.54 Billion Years'; }
+            requestAnimationFrame(anim);
+        })();
+    </script>
+</body>
+</html>
